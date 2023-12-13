@@ -17,11 +17,25 @@ class PandasTransform(TransformerMixin, BaseEstimator):
     def fit(self, X, y=None):
         return self
 
-    def transform(self, X, y=None, copy=None):
+    def transform(self, X, y=None):
         return self.fn(X)
     
-    def copy(self):
-        return copy(self)
+    # def copy(self):
+    #     return copy(self)
+
+class PandasDataFrame(pd.DataFrame, TransformerMixin, BaseEstimator):
+    """
+    DataFrame Estimator.
+    """
+    def __init__(self, dset):
+        super().__init__()
+        self.dset = dset
+        
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X, y=None):
+        return self
 
 
 class PandasFeatureUnion(FeatureUnion):

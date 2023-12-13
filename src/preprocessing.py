@@ -30,9 +30,9 @@ def preprocess_data(
     print("Input test data shape: ", test_df.shape, "\n")
 
     # Make a copy of the dataframes
-    working_train_df = train_df.copy()
-    working_val_df = val_df.copy()
-    working_test_df = test_df.copy()
+    working_train_df = train_df.reset_index().copy()
+    working_val_df = val_df.reset_index().copy()
+    working_test_df = test_df.reset_index().copy()
 
     # 1. Correct outliers/anomalous values in numerical
     # columns (`DAYS_EMPLOYED` column).
@@ -98,7 +98,7 @@ def preprocess_data(
         )
         result = pd.concat([result, builded_features], axis=1)
         last_len += len_feature
-    working_train_df = pd.concat([working_train_df.reset_index(), result], axis=1)
+    working_train_df = pd.concat([working_train_df.reset_index(drop=True), result], axis=1)
     working_train_df = working_train_df.drop(columns=plus_two_categories_features)
 
     # Validation set Encoding #TODO: DRY
@@ -121,7 +121,7 @@ def preprocess_data(
         )
         result = pd.concat([result, builded_features], axis=1)
         last_len += len_feature
-    working_val_df = pd.concat([working_val_df.reset_index(), result], axis=1)
+    working_val_df = pd.concat([working_val_df.reset_index(drop=True), result], axis=1)
     working_val_df = working_val_df.drop(columns=plus_two_categories_features)
 
     # Test set Encoding #TODO: DRY
@@ -144,7 +144,7 @@ def preprocess_data(
         )
         result = pd.concat([result, builded_features], axis=1)
         last_len += len_feature
-    working_test_df = pd.concat([working_test_df.reset_index(), result], axis=1)
+    working_test_df = pd.concat([working_test_df.reset_index(drop=True), result], axis=1)
     working_test_df = working_test_df.drop(columns=plus_two_categories_features)
 
     # 3. Impute values for all columns with missing data or, just all the columns.
