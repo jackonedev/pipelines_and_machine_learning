@@ -41,7 +41,7 @@ feature_enginering = Pipeline([
     ("outliers", CorrectOutliers(verbose=True)),
     ("numerical_transformation", workflow_1),
     ("impute_nan", CustomImputer(strategy="median")),
-    ("backup", CustomBackup()),
+    # ("backup", CustomBackup()),
     ("remove_nan", CustomDropna()),
     ("scale", CustomScaler(scaler=StandardScaler)),
     ])
@@ -51,3 +51,4 @@ feature_enginering.fit(X_train)
 train_data = feature_enginering.transform(X_train)
 val_data = feature_enginering.transform(X_val)
 test_data = feature_enginering.transform(X_test)
+

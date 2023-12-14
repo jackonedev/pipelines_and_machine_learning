@@ -120,8 +120,14 @@ class CustomBackup(BaseEstimator, TransformerMixin):
         dm = dt.datetime.now().strftime("%d_%m")
         hms = dt.datetime.now().strftime("%H_%M_%S")
         with open(f"data-{dm}-{hms}-backup.pkl", "wb") as f:
-            pickle.dump(self.X_, f)
-        return self.X_
+            pickle.dump(self.X, f)
+        # try:#Warning: X.name is not detected
+        #     #Warning: downloading .csv have some issues downloading more than 1 file
+        #     file_name = f"{X.name}-{dm}-{hms}-backup.csv"
+        # except:
+        #     file_name = f"data-{dm}-{hms}-backup.csv"
+        # X.to_csv(file_name, index=False)
+        return X
     
 class CustomDropna(BaseEstimator, TransformerMixin):
     def __init__(self):
