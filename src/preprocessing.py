@@ -168,15 +168,15 @@ def preprocess_data(
 
     working_train_df = pd.DataFrame(
         scaler.transform(working_train_df),
-        columns=working_train_df.columns.str.replace(r"[^\w\s]", "_", regex=True),
+        columns=working_train_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
     )
     working_val_df = pd.DataFrame(
         scaler.transform(working_val_df),
-        columns=working_val_df.columns.str.replace(r"[^\w\s]", "_", regex=True),
+        columns=working_val_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
     )
     working_test_df = pd.DataFrame(
         scaler.transform(working_test_df),
-        columns=working_test_df.columns.str.replace(r"[^\w\s]", "_", regex=True),
+        columns=working_test_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
     )
     
     return (train:=working_train_df.values), (val:=working_val_df.values), (test:=working_test_df.values)
