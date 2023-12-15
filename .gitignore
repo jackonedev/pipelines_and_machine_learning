@@ -3,7 +3,8 @@ README.md
 *Sprint Project*
 dataset/
 *.pkl
-
+!parameters.pkl
+!costs.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
