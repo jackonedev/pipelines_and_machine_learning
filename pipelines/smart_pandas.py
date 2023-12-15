@@ -3,39 +3,6 @@ import pandas as pd
 from joblib import Parallel, delayed
 from sklearn.pipeline import FeatureUnion, _fit_transform_one, _transform_one
 from scipy import sparse
-from sklearn.base import BaseEstimator, TransformerMixin
-from copy import copy
-
-
-class PandasTransform(TransformerMixin, BaseEstimator):
-    """
-    Estimator Transformer that preserv the object type
-    """
-    def __init__(self, fn):
-        self.fn = fn
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X, y=None):
-        return self.fn(X)
-    
-    # def copy(self):
-    #     return copy(self)
-
-class PandasDataFrame(pd.DataFrame, TransformerMixin, BaseEstimator):
-    """
-    DataFrame Estimator.
-    """
-    def __init__(self, dset):
-        super().__init__()
-        self.dset = dset
-        
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X, y=None):
-        return self
 
 
 class PandasFeatureUnion(FeatureUnion):
@@ -80,4 +47,3 @@ for feature engineering that return pandas.DataFrame.
         else:
             Xs = self.merge_dataframes_by_column(Xs)
         return Xs
-    

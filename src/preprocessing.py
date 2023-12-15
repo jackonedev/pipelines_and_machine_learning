@@ -66,8 +66,6 @@ def preprocess_data(
     working_test_df[two_categories_features] = ordinal_encoder.transform(
         working_test_df[two_categories_features]
     )
-    
-    
 
     #     - If it has more than 2 categories, use one-hot encoding, please use
     # Rest of the Categories treatment
@@ -98,7 +96,9 @@ def preprocess_data(
         )
         result = pd.concat([result, builded_features], axis=1)
         last_len += len_feature
-    working_train_df = pd.concat([working_train_df.reset_index(drop=True), result], axis=1)
+    working_train_df = pd.concat(
+        [working_train_df.reset_index(drop=True), result], axis=1
+    )
     working_train_df = working_train_df.drop(columns=plus_two_categories_features)
 
     # Validation set Encoding #TODO: DRY
@@ -144,7 +144,9 @@ def preprocess_data(
         )
         result = pd.concat([result, builded_features], axis=1)
         last_len += len_feature
-    working_test_df = pd.concat([working_test_df.reset_index(drop=True), result], axis=1)
+    working_test_df = pd.concat(
+        [working_test_df.reset_index(drop=True), result], axis=1
+    )
     working_test_df = working_test_df.drop(columns=plus_two_categories_features)
 
     # 3. Impute values for all columns with missing data or, just all the columns.
@@ -168,15 +170,25 @@ def preprocess_data(
 
     working_train_df = pd.DataFrame(
         scaler.transform(working_train_df),
-        columns=working_train_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
+        columns=working_train_df.columns.str.replace(
+            r"[^\w\s]", "_", regex=True
+        ).str.replace("__+", "_", regex=True),
     )
     working_val_df = pd.DataFrame(
         scaler.transform(working_val_df),
-        columns=working_val_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
+        columns=working_val_df.columns.str.replace(
+            r"[^\w\s]", "_", regex=True
+        ).str.replace("__+", "_", regex=True),
     )
     working_test_df = pd.DataFrame(
         scaler.transform(working_test_df),
-        columns=working_test_df.columns.str.replace(r"[^\w\s]", "_", regex=True).str.replace("__+", "_", regex=True),
+        columns=working_test_df.columns.str.replace(
+            r"[^\w\s]", "_", regex=True
+        ).str.replace("__+", "_", regex=True),
     )
-    
-    return (train:=working_train_df.values), (val:=working_val_df.values), (test:=working_test_df.values)
+
+    return (
+        (train := working_train_df.values),
+        (val := working_val_df.values),
+        (test := working_test_df.values),
+    )
