@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score
 import pandas as pd
 
 
-class CustomLogisticRegressor(BaseEstimator, TransformerMixin):
+class CustomLogisticRegression(BaseEstimator, TransformerMixin):
     def __init__(self, **kwargs) -> None:
         
         self.model = LogisticRegression(**kwargs)
