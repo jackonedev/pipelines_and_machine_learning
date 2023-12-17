@@ -2,10 +2,9 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from neural_network.base import NeuralNetworkBase
 
-class ShallowNNClassifier(BaseEstimator, TransformerMixin, NeuralNetworkBase):
+class ShallowNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetworkBase):
     def __init__(self, X_test, Y_test, learning_rate=0.1, num_iterations=400, print_cost=False):
         self.X_test = X_test
         self.Y_test = Y_test
