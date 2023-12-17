@@ -9,7 +9,7 @@ from base_class.backward_propagation import BackwardPropagation
 from base_class.update_parameters import UpdateParameters
 
 class NeuralNetworkBase(Initialization, ForwardPropagation, CostFunction, BackwardPropagation, UpdateParameters):
-    def feed_exploration(self, X, Y, X_test, Y_test):#DONE
+    def feed_exploration(self, X, Y, X_test, Y_test):
         # Convert to column vectors
         X = X.to_numpy()
         Y = Y.to_numpy().reshape(Y.shape[1], Y.shape[0])
