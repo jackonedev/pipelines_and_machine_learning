@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score
-from base_class.initialization import Initialization
-from base_class.forward_propagation import ForwardPropagation
-from base_class.cost_function import CostFunction
-from base_class.backward_propagation import BackwardPropagation
-from base_class.update_parameters import UpdateParameters
+from .base_class.initialization import Initialization
+from .base_class.forward_propagation import ForwardPropagation
+from .base_class.cost_function import CostFunction
+from .base_class.backward_propagation import BackwardPropagation
+from .base_class.update_parameters import UpdateParameters
 
 class NeuralNetworkBase(Initialization, ForwardPropagation, CostFunction, BackwardPropagation, UpdateParameters):
     def feed_exploration(self, X, Y, X_test, Y_test):
@@ -25,7 +25,7 @@ class NeuralNetworkBase(Initialization, ForwardPropagation, CostFunction, Backwa
         print ("Training vector shape: " + str(Y.shape))
         print ("Testing set shape: " + str(X_test.shape))
         print ("Testing vector shape: " + str(Y_test.shape))
-
+        print()
         return X, Y, X_test, Y_test
     
     def resample_X(self, X):

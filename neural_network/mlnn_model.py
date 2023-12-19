@@ -6,6 +6,10 @@ from neural_network.base import NeuralNetworkBase
 
 class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetworkBase):
     def __init__(self, X_test, Y_test, layers_dim, learning_rate=0.1, num_iterations=400, print_cost=False):
+        print("","="*44, "\n\t  Initializing Multi Layer NN\n", "="*44, "\n")
+        print("Layers dimensions: ", layers_dim)
+        print("Learning rate: ", learning_rate)
+        print("Number of iterations: ", num_iterations)
         self.X_test = X_test
         self.Y_test = Y_test
         self.layers_dim = layers_dim
@@ -16,6 +20,7 @@ class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetwor
         self.print_cost = print_cost
         
     def fit(self, X, y=None):
+        print("\nTraining Deep Neural Network Model\n")
         assert self.num_iterations > 0, "num_iterations must be greater than 0"
         assert self.learning_rate > 0, "learning_rate must be greater than 0"
         assert isinstance(X, type(pd.DataFrame())), "Type of X must be pandas.DataFrame"
@@ -88,7 +93,7 @@ class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetwor
                     
             # Print the cost every 100 iterations
             if print_cost and i % 100 == 0 or i == num_iterations - 1:
-                print("Cost after iteration {}: {}".format(i, np.squeeze(cost)))
+                print("(MLNN) Cost after iteration {}: {:.4f}".format(i, np.squeeze(cost)))
             if i % 100 == 0 or i == num_iterations:
                 costs.append(cost)
         

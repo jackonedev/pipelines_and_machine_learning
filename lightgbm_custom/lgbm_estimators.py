@@ -1,3 +1,4 @@
+# lightgbm_custom/lgbm_estimators.py
 import lightgbm as lgb
 from sklearn.metrics import roc_auc_score
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -12,6 +13,7 @@ class LGBMPredictor(BaseEstimator, TransformerMixin):
         self.model = lgb
         
     def fit(self, X, y=None):
+        print("\nTraining LightGBM Model\n")
         self.X_ = X.copy() 
         self.y_= y.copy()
         self.train_set = lgb.Dataset(self.X_, label=self.y_)
@@ -39,11 +41,11 @@ class LGBMFeatureSelector(BaseEstimator, TransformerMixin):
         self.min_importance = min_importance
         
     def fit(self, X, y=None):
+        print("\nTraining LGBM Feature Selector Model\n")
         self.X_ = X.copy() 
         self.y_= y.copy()
         self.train_set = lgb.Dataset(self.X_, label=self.y_)
         self.val_set = lgb.Dataset(self.val_data, label=self.y_val)
-        # print("","="*44, "\n\t  Training LGBM model\n", "="*44, "\n")
         self.model = self.model.train(self.params, self.train_set, num_boost_round=1000, callbacks=[lgb.early_stopping(100)], valid_sets=[self.train_set, self.val_set])
         return self
     

@@ -7,10 +7,12 @@ import pandas as pd
 
 class CustomLogisticRegression(BaseEstimator, TransformerMixin):
     def __init__(self, **kwargs) -> None:
-        
+        print("","="*44, "\n\t  Initializing Logistic Regression\n", "="*44, "\n")
+        print("Parameters: ", kwargs)
         self.model = LogisticRegression(**kwargs)
         
     def fit(self, X, y=None):
+        print("\nTraining Logistic Regression Model\n")
         self.X_ = X.copy()
         self.Y_= y.copy()
         
