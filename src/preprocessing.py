@@ -30,9 +30,9 @@ def preprocess_data(
     print("Input test data shape: ", test_df.shape, "\n")
 
     # Make a copy of the dataframes
-    working_train_df = train_df.reset_index().copy()
-    working_val_df = val_df.reset_index().copy()
-    working_test_df = test_df.reset_index().copy()
+    working_train_df = train_df.reset_index(drop=True).copy()
+    working_val_df = val_df.reset_index(drop=True).copy()
+    working_test_df = test_df.reset_index(drop=True).copy()
 
     # 1. Correct outliers/anomalous values in numerical
     # columns (`DAYS_EMPLOYED` column).
