@@ -122,3 +122,11 @@ class NeuralNetworkBase(Initialization, ForwardPropagation, CostFunction, Backwa
         plt.xlabel("Probability")
         plt.ylabel("Frequency")
         plt.show()
+
+    def plot_predict_dist(self, X, threshold=0.5):
+        probas = self.predict_proba(X)
+        plt.hist(probas[0], bins=2)
+        plt.title("Predict distribution")
+        plt.xlabel("Predict")
+        plt.ylabel("Frequency")
+        plt.show()
