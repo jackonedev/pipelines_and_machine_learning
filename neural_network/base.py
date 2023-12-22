@@ -130,3 +130,61 @@ class NeuralNetworkBase(Initialization, ForwardPropagation, CostFunction, Backwa
         plt.xlabel("Predict")
         plt.ylabel("Frequency")
         plt.show()
+        
+        
+
+    def normalize_rows(self, x):
+        """
+        Implement a function that normalizes each row of the matrix x (to have unit length).
+        
+        Argument:
+        x -- A numpy matrix of shape (n, m)
+        
+        Returns:
+        x -- The normalized (by row) numpy matrix. You are allowed to modify x.
+        """
+        
+        x_norm = np.linalg.norm(x, ord=2, axis=1, keepdims=True)
+        x = x / x_norm
+        return x
+
+
+    def softmax(self, x):
+        """Calculates the softmax for each row of the input x.
+
+        Your code should work for a row vector and also for matrices of shape (m,n).
+
+        Argument:
+        x -- A numpy matrix of shape (m,n)
+
+        Returns:
+        s -- A numpy matrix equal to the softmax of x, of shape (m,n)
+        """
+        x_exp = np.exp(x)
+        x_sum = np.sum(x_exp, axis=1, keepdims=True)
+        return x_exp / x_sum
+
+
+    def L1(self, yhat, y):
+        """
+        Arguments:
+        yhat -- vector of size m (predicted labels)
+        y -- vector of size m (true labels)
+        
+        Returns:
+        loss -- the value of the L1 loss function defined above
+        """
+        loss = np.sum(np.abs(y - yhat))
+        return loss
+
+    def L2(yhat, y):
+        """
+        Arguments:
+        yhat -- vector of size m (predicted labels)
+        y -- vector of size m (true labels)
+        
+        Returns:
+        loss -- the value of the L2 loss function defined above
+        """
+        loss = np.sum(np.dot(y - yhat, y - yhat))
+        return loss

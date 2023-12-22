@@ -5,7 +5,7 @@ import numpy as np
 from neural_network.base import NeuralNetworkBase
 
 class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetworkBase):
-    def __init__(self, X_test, Y_test, layers_dim, learning_rate=0.1, num_iterations=400, print_cost=False):
+    def __init__(self, X_test, Y_test, layers_dim, learning_rate=0.1, num_iterations=400, print_cost=False, normalize=None):
         print("","="*44, "\n\t  Initializing Multi Layer NN\n", "="*44, "\n")
         print("Layers dimensions: ", layers_dim)
         print("Learning rate: ", learning_rate)
@@ -18,6 +18,8 @@ class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetwor
         self.model_params = None
         self.model_cost = None
         self.print_cost = print_cost
+        assert normalize in [None, "rows", "softmax", "rows-softmax", "softmax-rows"], "normalize must be None, rows or softmax"
+        self.normalize = normalize
         
     def fit(self, X, y=None):
         print("\nTraining Deep Neural Network Model\n")
@@ -36,11 +38,22 @@ class MultiLayerNNBinaryClassifier(BaseEstimator, TransformerMixin, NeuralNetwor
         train_x_flatten = train_x_flatten.reshape(train_x_flatten.shape[0], -1).T
         test_x_flatten = test_x_flatten.reshape(test_x_flatten.shape[0], -1).T
         
-        # train_x_flatten = normalize_rows(train_x_flatten)
-        # test_x_flatten = normalize_rows(test_x_flatten)
-        # train_x_flatten = softmax(train_x_flatten)
-        # test_x_flatten = softmax(test_x_flatten)
+        if self.normalize == "rows":
+            train_x_flatten = self.normalize_rows(train_x_flatten)
+            test_x_flatten = self.normalize_rows(test_x_flatten)
+            
+        elif self.normalize == "softmax":
+            train_x_flatten = self.softmax(train_x_flatten)
+            test_x_flatten = self.softmax(test_x_flatten)
         
+        elif self.normalize == "rows-softmax":
+            train_x_flatten = self.softmax(self.normalize_rows(train_x_flatten))
+            test_x_flatten = self.softmax(self.normalize_rows(test_x_flatten))
+            
+        elif self.normalize == "softmax-rows":
+            train_x_flatten = self.normalize_rows(self.softmax(train_x_flatten))
+            test_x_flatten = self.normalize_rows(self.softmax(test_x_flatten))
+            
         self.X_flatten_shape = train_x_flatten.shape
         self.X_test_flatten_shape = test_x_flatten.shape
         
