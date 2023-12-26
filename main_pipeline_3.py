@@ -23,6 +23,8 @@ from sklearn.preprocessing import StandardScaler
 
 
 ## Main ##
+hardcoded_shutdown = True
+
 
 # app_train, app_test, columns_description = data_utils.get_datasets()
 app_train = pd.read_csv("dataset/application_train_aai.csv")
@@ -53,7 +55,7 @@ workflow_1 = PandasFeatureUnion([
     ("multi_label_cat", CustomOneHotEncoder(plus_two_cat_ft)),
     ])
 
-feature_enginering = Pipeline([
+feature_engineering = Pipeline([
     ("outliers", CorrectOutliers()),
     ("numerical_transformation", workflow_1),
     ("impute_nan", CustomImputer(strategy="median")),
@@ -62,23 +64,29 @@ feature_enginering = Pipeline([
     ("scale", CustomScaler(scaler=StandardScaler)),
     ])
 
-feature_enginering.fit(X_train)
-val_data = feature_enginering.transform(X_val)
+feature_engineering.fit(X_train)
 
-params = {
-    "objective": "binary",
-    "metric": "auc",
-    "min_child_samples": 2000,
-    "num_leaves": 14,
-    "learning_rate": 0.1,
-    "random_state": 88,
-    "n_jobs": -1,
-    "verbose": 0,
-}
+if hardcoded_shutdown == False:
+    val_data = feature_engineering.transform(X_val)
 
-feature_selection_pipeline = Pipeline([
-    ("feature_enginering", feature_enginering),
-    ("model", LGBMFeatureSelector(params=params, val_data=val_data, y_val=y_val)),
-])
+    params = {
+        "objective": "binary",
+        "metric": "auc",
+        "min_child_samples": 2000,
+        "num_leaves": 14,
+        "learning_rate": 0.1,
+        "random_state": 88,
+        "n_jobs": -1,
+        "verbose": 0,
+    }
 
-feature_selection_pipeline.fit(X_train, y_train)
+    feature_selection_pipeline = Pipeline([
+        ("feature_enginering", feature_engineering),
+        ("model", LGBMFeatureSelector(params=params, val_data=val_data, y_val=y_val)),
+    ])
+
+    feature_selection_pipeline.fit(X_train, y_train)
+    
+# Print() -> las variables que sea crearon son: ...
+
+    
